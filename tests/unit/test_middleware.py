@@ -37,6 +37,20 @@ def test_view_necessary(client, site):
 
 
 @pytest.mark.django_db
+def test_view_keeps_escaped_content_escaped(client, site):
+    tag_instant_necessary(tag_location=Tag.TOP_HEAD)
+    site.root_page.title = "<script>alert('title')</script>"
+    site.root_page.save()
+
+    client.cookies = SimpleCookie({"wtm": "necessary:true"})
+    response = client.get(site.root_page.url)
+    assert response.status_code == 200
+    assert b'console.log("necessary instant")' in response.content
+    assert b"<script>alert('title')</script>" not in response.content
+    assert b"&lt;script&gt;alert('title')&lt;/script&gt;" in response.content
+
+
+@pytest.mark.django_db
 def test_view_preferences(client, site):
     tag_instant_preferences(tag_location=Tag.TOP_BODY)
     client.cookies = SimpleCookie({"wtm": "preferences:true"})

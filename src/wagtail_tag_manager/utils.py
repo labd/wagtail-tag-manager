@@ -1,6 +1,6 @@
 import uuid
 import typing
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 import django
 from django.conf import settings
@@ -88,7 +88,7 @@ def _set_cookie(response, key, value, days_expire=None):
     else:
         max_age = days_expire * 24 * 60 * 60
 
-    delta = datetime.utcnow() + timedelta(seconds=max_age)
+    delta = datetime.now(timezone.utc) + timedelta(seconds=max_age)
     expires = datetime.strftime(delta, "%a, %d-%b-%Y %H:%M:%S GMT")
 
     kwargs = {

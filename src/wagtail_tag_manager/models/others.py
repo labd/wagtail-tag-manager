@@ -68,11 +68,9 @@ class CookieDeclaration(models.Model):
         ordering = ["domain", "cookie_type", "name"]
         unique_together = ("name", "domain")
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    def save(self, *args, **kwargs):
         self.full_clean()
-        return super().save(force_insert, force_update, using, update_fields)
+        return super().save(*args, **kwargs)
 
     @property
     def expiration(self):

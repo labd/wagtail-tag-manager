@@ -2,15 +2,9 @@ from datetime import datetime, timedelta
 
 import django
 import requests
-from selenium import webdriver
 from django.conf import settings
 from django.urls import reverse
 from django.contrib import messages
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from wagtail_tag_manager.models import Tag, CookieDeclaration
 
@@ -80,6 +74,15 @@ class CookieScanner(object):  # pragma: no cover
         if chromedriver_url is None:
             return
 
+        # Selenium is an optional extra; without it the scanner falls back to requests.
+        try:
+            from selenium import webdriver
+            from selenium.webdriver.common.desired_capabilities import (
+                DesiredCapabilities,
+            )
+        except ImportError:
+            return
+
         options = webdriver.ChromeOptions()
         options.add_argument("disable-gpu")
         options.add_argument("headless")
@@ -95,6 +98,11 @@ class CookieScanner(object):  # pragma: no cover
         self.browser.implicitly_wait(30)
 
     def scan_webdriver(self):
+        from selenium.common.exceptions import TimeoutException
+        from selenium.webdriver.common.by import By
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.support.ui import WebDriverWait
+
         self.browser.get(self.entry_url)
 
         try:

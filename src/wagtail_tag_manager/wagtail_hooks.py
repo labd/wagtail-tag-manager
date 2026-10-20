@@ -4,6 +4,7 @@ from django.conf import settings
 from django.urls import path, reverse
 from django.utils.html import mark_safe
 from wagtail.admin.menu import AdminOnlyMenuItem
+from wagtail.admin.ui.tables import Column, DateColumn
 from wagtail.admin.site_summary import SummaryItem
 from wagtail.admin.views.reports import ReportView
 from django.template.defaultfilters import truncatechars
@@ -180,9 +181,15 @@ modeladmin_register(TagManagerAdminGroup)
 # Reports
 class CookieConsentReportView(ReportView):
     header_icon = "success"
-    title = _("Cookie consents")
-    template_name = "reports/cookie_consent_report.html"
+    page_title = _("Cookie consents")
+    index_url_name = "cookie_consent_report"
     list_export = ["identifier", "location", "consent_state", "timestamp"]
+    columns = [
+        Column("identifier", label=_("Identifier")),
+        Column("location", label=_("Location")),
+        Column("consent_state", label=_("Consent state")),
+        DateColumn("timestamp", label=_("Timestamp")),
+    ]
 
     def get_queryset(self):
         return CookieConsent.objects.all().order_by("-timestamp")
@@ -193,7 +200,7 @@ def register_unpublished_changes_report_menu_item():
     return AdminOnlyMenuItem(
         _("Cookie consents"),
         reverse("cookie_consent_report"),
-        classname="icon icon-" + CookieConsentReportView.header_icon,
+        icon_name=CookieConsentReportView.header_icon,
         order=700,
     )
 

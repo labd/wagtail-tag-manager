@@ -1,29 +1,22 @@
 # Wagtail Tag Manager
 
-[![CircleCI][circleci]](https://circleci.com/gh/jberghoef/wagtail-tag-manager)
-[![CodeCov][codecov]](https://codecov.io/gh/jberghoef/wagtail-tag-manager)
-[![Codacy][codacy]](https://www.codacy.com/app/jberghoef/wagtail-tag-manager)
+[![Tests][tests]](https://github.com/labd/wagtail-tag-manager/actions/workflows/tests.yml)
 [![License][license]](https://opensource.org/licenses/BSD-3-Clause)
-[![Fossa][fossa]](https://app.fossa.com/projects/git%2Bgithub.com%2Fjberghoef%2Fwagtail-tag-manager)
-[![Version][version]](https://pypi.python.org/pypi/wagtail-tag-manager/)
-[![Downloads][downloads]](https://pepy.tech/project/wagtail-tag-manager)
 [![Black][black]](https://github.com/ambv/black)
 [![Prettier][prettier]](https://github.com/prettier/prettier)
-[![Gitpod ready-to-code][gitpod]](https://gitpod.io/#https://github.com/jberghoef/wagtail-tag-manager)
 
-[circleci]: https://circleci.com/gh/jberghoef/wagtail-tag-manager.svg?style=svg "Circle CI"
-[codecov]: https://codecov.io/gh/jberghoef/wagtail-tag-manager/branch/master/graph/badge.svg "Codecov"
-[codacy]: https://api.codacy.com/project/badge/Grade/2a59a006e69442bb809bf08f47028eb9 "Codacy"
+[tests]: https://github.com/labd/wagtail-tag-manager/actions/workflows/tests.yml/badge.svg "Tests"
 [license]: https://img.shields.io/badge/license-BSD-blue.svg "License"
-[fossa]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjberghoef%2Fwagtail-tag-manager.svg?type=shield "Fossa"
-[version]: https://img.shields.io/pypi/v/wagtail-tag-manager.svg "Version"
-[downloads]: https://pepy.tech/badge/wagtail-tag-manager "Downloads"
 [black]: https://img.shields.io/badge/code%20style-black-000000.svg "Black"
 [prettier]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg "Prettier"
-[gitpod]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod "Gitpod"
 
-Wagtail Tag Manager (WTM for short) is a [Wagtail](https://wagtail.io/) addon
+Wagtail Tag Manager (WTM for short) is a [Wagtail](https://wagtail.org/) addon
 that allows for easier and GDPR compliant administration of scripts and tags.
+
+This is the [Lab Digital](https://github.com/labd) fork of
+[jberghoef/wagtail-tag-manager](https://github.com/jberghoef/wagtail-tag-manager),
+maintained to support current Wagtail and Django releases. It is not published
+to PyPI; the `wagtail-tag-manager` package on PyPI is the upstream release.
 
 ![Screenshot](screenshots/screenshot.png "Screenshot")
 
@@ -79,6 +72,7 @@ to inject tags into a page before the response is send to a client.
 - [Page tag mixin](#page-tag-mixin)
 - [Lazy triggers](#lazy-triggers)
 - [Sandbox](#sandbox)
+- [Development](#development)
 - [Concept](#concept)
 - [Who's using it](#whos-using-it)
 - [License](#license)
@@ -101,26 +95,33 @@ change the text shown in the cookie bar.
 
 ## Requirements
 
-| Package | Version(s)                                        |
-| ------- | ------------------------------------------------- |
-| Django  | 2.2, 3.0, 3.1, 3.2, 4.0, 4.1                      |
-| Wagtail | 2.11, 2.12, 2.13, 2.14, 2.15, 2.16, 3.0, 4.0, 4.1 |
-| Python  | 3.7, 3.8, 3.9, 3.10, 3.11                         |
+| Package            | Version(s)                                       |
+| ------------------ | ------------------------------------------------ |
+| Wagtail            | 7.0 LTS, 7.4 LTS, 8.0                            |
+| Django             | 5.2 LTS, 6.0, 6.1 (as supported by your Wagtail) |
+| Python             | 3.10 – 3.14 (Django 6.x requires 3.12+)          |
+| wagtail-modeladmin | 2.3+ (2.5+ for Wagtail 8.0)                      |
 
 ## Instructions
 
 **Installation:**
 
+Install from git, pinned to a commit or tag:
+
 ```
-pip install wagtail-tag-manager
+uv add "wagtail-tag-manager @ git+https://github.com/labd/wagtail-tag-manager.git@<commit-or-tag>"
 ```
+
+The cookie scanner can optionally use Selenium (see
+[`WTM_CHROMEDRIVER_URL`](#wtm_chromedriver_url)). Install the `scanner` extra
+to enable it: `wagtail-tag-manager[scanner] @ git+https://...`.
 
 **Add the application to your `INSTALLED_APPS`:**
 
 ```python
 INSTALLED_APPS = [
     # ...
-    'wagtail.contrib.modeladmin',
+    'wagtail_modeladmin',
     'wagtail_tag_manager',
     # ...
 ]
@@ -419,7 +420,8 @@ WTM_ENABLE_SCANNER = False
 
 When enabled, allows scanning of cookies placed on the website. Use this to
 automatically generate cookie declarations. Will attempt to use Chrome Driver
-when available, and will fall back to regular requests if not.
+when available (requires the `scanner` extra), and will fall back to regular
+requests if not.
 
 ### `WTM_CHROMEDRIVER_URL`
 
@@ -493,14 +495,22 @@ the conditions that you specified.
 ## Sandbox
 
 To experiment with the package you can use the sandbox provided in this
-repository. To install this you will need to create and activate a
-virtualenv and then run `make sandbox`. This will start a fresh Wagtail
+repository. To install this you will need [uv](https://docs.astral.sh/uv/),
+Node.js and Yarn; then run `make venv sandbox`. This will start a fresh Wagtail
 install, with the tag manager module enabled, on http://localhost:8000
 and http://localhost:8000/cms/. The superuser credentials are
 `superuser` with the password `testing`.
 
 Various types of tags, constants and variables are enabled out of the box.
 Check out the console in your browser to see them in action.
+
+## Development
+
+```
+make venv requirements     # create .venv with uv and install the package with test extras
+make test                  # run the test suite in .venv
+make tox                   # run the full Wagtail/Django/Python matrix and lint with tox-uv
+```
 
 ## Concept
 

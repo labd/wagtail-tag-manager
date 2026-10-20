@@ -7,3 +7,4 @@ class LocaleFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Locale
+        django_get_or_create = ("language_code",)

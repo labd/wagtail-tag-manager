@@ -1,4 +1,7 @@
-.PHONY: install clean requirements test retest lint flake8 isort sandbox bundle watch git-reset
+.PHONY: install clean venv requirements test retest coverage tox lint flake8 isort mypy format black prettier sandbox test_sandbox run_test_sandbox bundle watch build
+
+# Runs commands in the uv-managed .venv without needing to activate it.
+RUN = uv run --no-project
 
 default: install
 
@@ -9,64 +12,67 @@ clean:
 	find tests -name '*.pyc' -delete
 	find . -name '*.egg-info' |xargs rm -rf
 
-requirements:
+venv:
+	test -d .venv || uv venv
+
+requirements: venv
 	yarn install
-	pip install -U -e .[docs,test]
+	uv pip install -e ".[test]"
 
 test:
-	py.test --nomigrations --reuse-db tests/
+	$(RUN) pytest --nomigrations --reuse-db tests/
 
 retest:
-	py.test --nomigrations --reuse-db tests/ -vvv
+	$(RUN) pytest --nomigrations --reuse-db tests/ -vvv
 
 coverage:
-	py.test --nomigrations --reuse-db tests/ --cov=wagtail_tag_manager --cov-report=term-missing --cov-report=html
+	$(RUN) pytest --nomigrations --reuse-db tests/ --cov=wagtail_tag_manager --cov-report=term-missing --cov-report=html
+
+tox:
+	uvx --with tox-uv tox
 
 lint: flake8 isort mypy
 
 mypy:
-	pip install -U mypy
-	mypy src/ tests/
+	uv pip install -U mypy
+	$(RUN) mypy src/ tests/
 
 flake8:
-	pip install -U flake8
-	flake8 src/ tests/
+	uvx flake8 src/ tests/
 
 isort:
-	pip install -U isort
-	isort --recursive src tests
+	uvx isort src tests
 
 format: black prettier
 
 BLACK_EXCLUDE="/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|_build|buck-out|build|dist|migrations)/"
 
 black: isort
-	pip install -U black
-	black --target-version py37 --verbose --exclude $(BLACK_EXCLUDE) ./src
-	black --target-version py37 --verbose --exclude $(BLACK_EXCLUDE) ./tests
+	uvx black --target-version py310 --verbose --exclude $(BLACK_EXCLUDE) ./src
+	uvx black --target-version py310 --verbose --exclude $(BLACK_EXCLUDE) ./tests
 
 prettier:
 	yarn install
 	yarn format
 
 sandbox: bundle
-	pip install -U -r sandbox/requirements.txt
+	uv pip install -U -r sandbox/requirements.txt
 	rm -rf db.sqlite3
-	sandbox/manage.py migrate
-	sandbox/manage.py loaddata sandbox/exampledata/users.json
-	sandbox/manage.py loaddata sandbox/exampledata/cms.json
-	sandbox/manage.py loaddata sandbox/exampledata/default_tags.json
-	sandbox/manage.py loaddata sandbox/exampledata/additional_tags.json
-	sandbox/manage.py runserver
+	$(RUN) sandbox/manage.py migrate
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/users.json
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/cms.json
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/default_tags.json
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/additional_tags.json
+	$(RUN) sandbox/manage.py runserver
 
 test_sandbox:
-	pip install -U -r sandbox/requirements.txt
+	uv pip install -U -r sandbox/requirements.txt
 	rm -rf db.sqlite3
-	sandbox/manage.py migrate
-	sandbox/manage.py loaddata sandbox/exampledata/users.json
-	sandbox/manage.py loaddata sandbox/exampledata/cms.json
-	sandbox/manage.py loaddata sandbox/exampledata/default_tags.json
-	ENVIRONMENT=test sandbox/manage.py runserver --verbosity 0
+	$(RUN) sandbox/manage.py migrate
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/users.json
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/cms.json
+	$(RUN) sandbox/manage.py loaddata sandbox/exampledata/default_tags.json
+	ENVIRONMENT=test $(RUN) sandbox/manage.py runserver --verbosity 0
 
 run_test_sandbox:
 	sandbox/manage.py runserver --verbosity 0 > /dev/null 2>&1
@@ -79,9 +85,5 @@ watch:
 	yarn dev
 	yarn watch
 
-release:
-	pip install -U twine wheel
-	rm -rf build/*
-	rm -rf dist/*
-	python setup.py sdist bdist_wheel
-	twine upload --repository pypi dist/*
+build:
+	uv build

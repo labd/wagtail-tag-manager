@@ -69,7 +69,7 @@ class TagManagerMiddleware(BaseMiddleware):
 
             doc.head = head
             doc.body = body
-            response.content = doc.encode(formatter=None)
+            response.content = doc.encode(formatter="minimal")
 
         return response
 
@@ -95,6 +95,6 @@ class TagManagerMiddleware(BaseMiddleware):
                     script["src"] = static("wagtail_tag_manager/wtm.bundle.js")
                     doc.body.append(script)
 
-            response.content = doc.encode(formatter=None)
+            response.content = doc.encode(formatter="minimal")
 
         return response

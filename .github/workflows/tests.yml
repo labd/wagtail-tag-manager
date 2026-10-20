@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions: {}
+
+jobs:
+  tox:
+    name: ${{ matrix.toxenv }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        toxenv:
+          - py310-django52-wagtail70
+          - py313-django52-wagtail70
+          - py312-django52-wagtail74
+          - py312-django60-wagtail74
+          - py314-django52-wagtail74
+          - py314-django60-wagtail74
+          - py310-django52-wagtail80
+          - py314-django52-wagtail80
+          - py312-django60-wagtail80
+          - py312-django61-wagtail80
+          - py314-django60-wagtail80
+          - py314-django61-wagtail80
+          - lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+
+      - name: Run tox
+        run: uvx --with tox-uv tox -e "$TOXENV"
+        env:
+          TOXENV: ${{ matrix.toxenv }}

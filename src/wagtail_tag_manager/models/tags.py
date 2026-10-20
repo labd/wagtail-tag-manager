@@ -136,11 +136,9 @@ class Tag(models.Model):
 
         return self
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    def save(self, *args, **kwargs):
         self.full_clean()
-        return super().save(force_insert, force_update, using, update_fields)
+        return super().save(*args, **kwargs)
 
     def get_doc(self, request=None, context=None):
         content = self.content

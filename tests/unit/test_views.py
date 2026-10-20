@@ -6,6 +6,7 @@ from django.urls import reverse
 from tests.factories.constant import ConstantFactory
 from tests.factories.variable import VariableFactory
 from wagtail_tag_manager.views import CookieDeclarationIndexView
+from wagtail_tag_manager.models import CookieConsent
 from wagtail_tag_manager.settings import TagTypeSettings
 from wagtail_tag_manager.wagtail_hooks import CookieDeclarationModelAdmin
 
@@ -57,3 +58,15 @@ def test_cookie_declaration_index_view(client, admin_user):
 
     response = client.get(url)
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_cookie_consent_report_view(client, admin_user):
+    consent = CookieConsent.objects.create(
+        consent_state="necessary:true", location="http://localhost/"
+    )
+    client.force_login(admin_user)
+
+    response = client.get(reverse("cookie_consent_report"))
+    assert response.status_code == 200
+    assert str(consent.identifier).encode() in response.content
