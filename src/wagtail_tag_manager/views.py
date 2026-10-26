@@ -3,16 +3,16 @@ from itertools import groupby
 import django
 from django import forms
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseNotFound, HttpResponseRedirect
-from django.views.generic import View, TemplateView
 from django.contrib.auth.views import RedirectURLMixin
+from django.http import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
+from django.views.generic import TemplateView, View
 from wagtail_modeladmin.views import IndexView
 
-from wagtail_tag_manager.forms import ConsentForm
-from wagtail_tag_manager.utils import set_consent
-from wagtail_tag_manager.models import Trigger, Constant, Variable, TagTypeSettings
-from wagtail_tag_manager.webdriver import CookieScanner
 from wagtail_tag_manager.decorators import get_variables
+from wagtail_tag_manager.forms import ConsentForm
+from wagtail_tag_manager.models import Constant, TagTypeSettings, Trigger, Variable
+from wagtail_tag_manager.utils import set_consent
+from wagtail_tag_manager.webdriver import CookieScanner
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

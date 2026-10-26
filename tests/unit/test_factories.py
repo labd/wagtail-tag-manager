@@ -1,23 +1,23 @@
 import pytest
 
+from tests.factories.constant import ConstantFactory
 from tests.factories.tag import (
     TagFactory,
-    tag_lazy_marketing,
-    tag_lazy_necessary,
-    tag_lazy_preferences,
     tag_instant_marketing,
     tag_instant_necessary,
     tag_instant_preferences,
+    tag_lazy_marketing,
+    tag_lazy_necessary,
+    tag_lazy_preferences,
 )
-from tests.factories.trigger import TriggerFactory, TriggerConditionFactory
-from tests.factories.constant import ConstantFactory
+from tests.factories.trigger import TriggerConditionFactory, TriggerFactory
 from tests.factories.variable import VariableFactory
 from wagtail_tag_manager.models import (
+    Constant,
     Tag,
     Trigger,
-    Constant,
-    Variable,
     TriggerCondition,
+    Variable,
 )
 
 

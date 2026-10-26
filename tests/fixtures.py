@@ -1,8 +1,8 @@
 import pytest
-from django.test.client import RequestFactory as BaseRequestFactory
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.messages.storage.fallback import FallbackStorage
+from django.contrib.sessions.backends.db import SessionStore
+from django.test.client import RequestFactory as BaseRequestFactory
 
 from tests.factories.page import ContentPageFactory, TaggableContentPageFactory
 from tests.factories.site import SiteFactory

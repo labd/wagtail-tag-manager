@@ -1,11 +1,11 @@
 import django
-from django.db import models
 from django.conf import settings
-from django.dispatch import receiver
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.dispatch import receiver
 from django.utils.html import mark_safe
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
-from django.core.exceptions import ValidationError
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

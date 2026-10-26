@@ -1,20 +1,20 @@
 import pytest
 
 from tests.factories.tag import (
+    tag_instant_necessary,
     tag_lazy_marketing,
     tag_lazy_necessary,
     tag_lazy_preferences,
-    tag_instant_necessary,
 )
-from tests.factories.trigger import TriggerFactory, TriggerConditionFactory
+from tests.factories.trigger import TriggerConditionFactory, TriggerFactory
 from wagtail_tag_manager.models import (
-    Tag,
-    Trigger,
     Constant,
-    Variable,
-    TagTypeSettings,
-    TriggerCondition,
     CookieDeclaration,
+    Tag,
+    TagTypeSettings,
+    Trigger,
+    TriggerCondition,
+    Variable,
 )
 
 

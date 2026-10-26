@@ -2,17 +2,17 @@ import re
 
 import django
 from bs4 import BeautifulSoup
-from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.db import models
 from django.template import Context, Template
 from django.utils.html import mark_safe
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
-from django.core.exceptions import ValidationError
 
-from wagtail_tag_manager.models import constants, variables
-from wagtail_tag_manager.widgets import Codearea
 from wagtail_tag_manager.managers import TagQuerySet
+from wagtail_tag_manager.models import constants, variables
 from wagtail_tag_manager.settings import TagTypeSettings
+from wagtail_tag_manager.widgets import Codearea
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

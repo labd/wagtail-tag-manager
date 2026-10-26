@@ -1,29 +1,29 @@
 import django
-from wagtail import hooks
 from django.conf import settings
+from django.template.defaultfilters import truncatechars
 from django.urls import path, reverse
 from django.utils.html import mark_safe
+from wagtail import hooks
 from wagtail.admin.menu import AdminOnlyMenuItem
-from wagtail.admin.ui.tables import Column, DateColumn
 from wagtail.admin.site_summary import SummaryItem
+from wagtail.admin.ui.tables import Column, DateColumn
 from wagtail.admin.views.reports import ReportView
-from django.template.defaultfilters import truncatechars
 from wagtail_modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
 
-from wagtail_tag_manager.views import WTMIndexView, CookieDeclarationIndexView
 from wagtail_tag_manager.models import (
-    Tag,
-    Trigger,
     Constant,
-    Variable,
     CookieConsent,
     CookieDeclaration,
+    Tag,
+    Trigger,
+    Variable,
 )
 from wagtail_tag_manager.settings import TagTypeSettings
+from wagtail_tag_manager.views import CookieDeclarationIndexView, WTMIndexView
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

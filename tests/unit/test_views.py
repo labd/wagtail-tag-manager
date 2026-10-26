@@ -5,9 +5,9 @@ from django.urls import reverse
 
 from tests.factories.constant import ConstantFactory
 from tests.factories.variable import VariableFactory
-from wagtail_tag_manager.views import CookieDeclarationIndexView
 from wagtail_tag_manager.models import CookieConsent
 from wagtail_tag_manager.settings import TagTypeSettings
+from wagtail_tag_manager.views import CookieDeclarationIndexView
 from wagtail_tag_manager.wagtail_hooks import CookieDeclarationModelAdmin
 
 

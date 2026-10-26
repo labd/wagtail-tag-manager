@@ -1,9 +1,9 @@
-from django.http import Http404
 from django.db.models import Q
+from django.http import Http404
 from wagtail.views import serve as wagtail_serve
 
 from wagtail_tag_manager.mixins import TagMixin
-from wagtail_tag_manager.models import Tag, Trigger, TagTypeSettings
+from wagtail_tag_manager.models import Tag, TagTypeSettings, Trigger
 from wagtail_tag_manager.settings import (
     SETTING_DEFAULT,
     SETTING_DELAYED,
@@ -176,8 +176,8 @@ class TagStrategy(object):
         ]
 
     def _get_tags_for_page(self):
-        from wagtail_tag_manager.utils import get_page_for_request
         from wagtail_tag_manager.endpoints import lazy_endpoint
+        from wagtail_tag_manager.utils import get_page_for_request
 
         result = []
 

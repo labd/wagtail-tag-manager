@@ -1,6 +1,6 @@
-import uuid
 import typing
-from datetime import datetime, timezone, timedelta
+import uuid
+from datetime import datetime, timedelta, timezone
 
 import django
 from django.conf import settings
@@ -8,7 +8,7 @@ from django.http import HttpRequest, HttpResponse
 from django.utils.cache import patch_vary_headers
 
 from wagtail_tag_manager.models import CookieConsent
-from wagtail_tag_manager.settings import TagTypeSettings, CookieConsentSettings
+from wagtail_tag_manager.settings import CookieConsentSettings, TagTypeSettings
 from wagtail_tag_manager.strategy import CONSENT_UNSET
 
 __version__ = django.get_version()

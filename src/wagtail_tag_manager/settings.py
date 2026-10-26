@@ -1,11 +1,11 @@
 import django
-from django.db import models
 from django.apps import apps
 from django.conf import settings
-from wagtail.fields import RichTextField
+from django.db import models
 from django.utils.text import slugify
 from wagtail.admin.panels import FieldPanel, PageChooserPanel
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.fields import RichTextField
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

@@ -3,20 +3,20 @@ from http.cookies import SimpleCookie
 
 import pytest
 
+from tests.factories.page import TaggableContentPageFactory
 from tests.factories.tag import (
     TagFactory,
+    tag_instant_marketing,
+    tag_instant_preferences,
+    tag_instant_statistics,
     tag_lazy_marketing,
     tag_lazy_necessary,
-    tag_lazy_statistics,
     tag_lazy_preferences,
-    tag_instant_marketing,
-    tag_instant_statistics,
-    tag_instant_preferences,
+    tag_lazy_statistics,
 )
-from tests.factories.page import TaggableContentPageFactory
 from tests.factories.trigger import TriggerFactory
-from wagtail_tag_manager.utils import get_consent
 from wagtail_tag_manager.models import Tag, Trigger
+from wagtail_tag_manager.utils import get_consent
 
 
 @pytest.mark.django_db
