@@ -54,6 +54,7 @@ test = [
   "wagtail_factories",
 ]
 lint = ["ruff>=0.17.2"]
+e2e = ["pytest-playwright>=0.10.0"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/wagtail_tag_manager"]

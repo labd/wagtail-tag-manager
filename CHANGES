@@ -12,6 +12,7 @@
  - Update packaging metadata, tooling and README for this fork
  - Move packaging to pyproject.toml and uv; the `test` extra is now a dependency group
  - Replace black/isort/flake8 with ruff
+ - Replace the Cypress end-to-end tests with Playwright (pytest-playwright)
 
 
 0.24.2 (2020.10.28)

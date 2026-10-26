@@ -34,7 +34,7 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    # debug_toolbar is not installed for the Cypress (ENVIRONMENT=test) runs,
+    # debug_toolbar is not installed for the end-to-end (ENVIRONMENT=test) runs,
     # and importing its urls without the app installed fails.
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
