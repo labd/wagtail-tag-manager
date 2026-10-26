@@ -53,7 +53,7 @@ test = [
   "pytest",
   "wagtail_factories",
 ]
-lint = ["ruff>=0.17.2"]
+lint = ["ruff>=0.17.0"]
 e2e = ["pytest-playwright>=0.10.0"]
 
 [tool.uv]
@@ -65,7 +65,6 @@ exclude-newer = "14 days"
 # Locked versions newer than the 14-day cutoff; remove after 2026-11-09
 certifi = "2026-10-27T00:00:00Z"  # 2026.10.23 fixes GHSA-6q48-6c7w-9gw2
 pillow = "2026-10-27T00:00:00Z"  # 13.0.0 fixes GHSA-24rc-8hj2-v98c GHSA-462x-pgg6-55fp GHSA-4rm8-3hmm-39fg ...
-ruff = "2026-10-27T00:00:00Z"  # pyproject requires >=0.17.2
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/wagtail_tag_manager"]
