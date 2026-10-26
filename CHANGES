@@ -1,6 +1,6 @@
 1.7.0 (unreleased)
 ==================
- - Support Wagtail 8.0 and Django 6.0/6.1; require Wagtail 7.0+ and Python 3.10+
+ - Support Wagtail 8.0 and Django 6.0/6.1; require Wagtail 7.0+ and Python 3.11+
  - Fix model saves on Django 6.0, which no longer accepts positional `save()` arguments
  - Fix `TagManagerMiddleware` unescaping HTML entities in rendered pages
  - Fix the cookie consent report not listing any consents
@@ -10,6 +10,8 @@
  - Fix sandbox example data on recent Wagtail versions
  - Fix the test suite and run it with tox-uv on GitHub Actions
  - Update packaging metadata, tooling and README for this fork
+ - Move packaging to pyproject.toml and uv; the `test` extra is now a dependency group
+ - Replace black/isort/flake8 with ruff
 
 
 0.24.2 (2020.10.28)

@@ -18,13 +18,13 @@ jobs:
       fail-fast: false
       matrix:
         toxenv:
-          - py310-django52-wagtail70
+          - py311-django52-wagtail70
           - py313-django52-wagtail70
           - py312-django52-wagtail74
           - py312-django60-wagtail74
           - py314-django52-wagtail74
           - py314-django60-wagtail74
-          - py310-django52-wagtail80
+          - py311-django52-wagtail80
           - py314-django52-wagtail80
           - py312-django60-wagtail80
           - py312-django61-wagtail80
