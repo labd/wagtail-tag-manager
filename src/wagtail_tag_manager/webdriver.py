@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 import django
 import requests
 from django.conf import settings
-from django.urls import reverse
 from django.contrib import messages
+from django.urls import reverse
 
-from wagtail_tag_manager.models import Tag, CookieDeclaration
+from wagtail_tag_manager.models import CookieDeclaration, Tag
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

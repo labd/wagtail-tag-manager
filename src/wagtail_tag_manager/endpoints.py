@@ -1,9 +1,9 @@
 import json
 
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
 
-from wagtail_tag_manager.utils import set_consent
 from wagtail_tag_manager.strategy import TagStrategy
+from wagtail_tag_manager.utils import set_consent
 
 
 def lazy_endpoint(request):

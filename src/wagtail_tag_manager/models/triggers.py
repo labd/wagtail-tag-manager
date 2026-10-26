@@ -1,21 +1,21 @@
 import re
 
 import django
+from django.core.exceptions import ValidationError
 from django.db import models
-from wagtail.models import Orderable
 from django.utils.html import mark_safe
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
-from django.core.exceptions import ValidationError
+from wagtail.models import Orderable
 
+from wagtail_tag_manager.managers import TriggerQuerySet
 from wagtail_tag_manager.models import Tag
-from wagtail_tag_manager.widgets import VariableSelect
 from wagtail_tag_manager.widgets import (
     HorizontalCheckboxSelectMultiple as CheckboxSelectMultiple,
 )
-from wagtail_tag_manager.managers import TriggerQuerySet
+from wagtail_tag_manager.widgets import VariableSelect
 
 __version__ = django.get_version()
 if __version__.startswith("2"):

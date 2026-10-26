@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
 from django.conf import settings
-from django.urls import reverse
 from django.templatetags.static import static
+from django.urls import reverse
 
-from wagtail_tag_manager.utils import set_consent
 from wagtail_tag_manager.models import Tag
 from wagtail_tag_manager.strategy import TagStrategy
+from wagtail_tag_manager.utils import set_consent
 
 
 class BaseMiddleware:

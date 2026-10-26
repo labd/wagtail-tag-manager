@@ -2,14 +2,14 @@ from http.cookies import SimpleCookie
 
 import pytest
 
+from tests.factories.page import TaggableContentPageFactory
 from tests.factories.tag import (
     TagFactory,
     tag_instant_marketing,
     tag_instant_necessary,
-    tag_instant_statistics,
     tag_instant_preferences,
+    tag_instant_statistics,
 )
-from tests.factories.page import TaggableContentPageFactory
 from wagtail_tag_manager.models import Tag
 
 

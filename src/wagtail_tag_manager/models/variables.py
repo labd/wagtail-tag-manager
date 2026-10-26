@@ -1,11 +1,11 @@
-import re
 import operator
+import re
 
 import django
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.html import mark_safe
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
-from django.core.exceptions import ValidationError
 
 from wagtail_tag_manager.decorators import get_variables
 

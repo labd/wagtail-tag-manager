@@ -2,17 +2,17 @@ import django
 from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
+from django.template.context import make_context
+from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import mark_safe
-from django.template.loader import render_to_string
-from django.template.context import make_context
-from django.templatetags.static import static
 
 from wagtail_tag_manager.forms import ConsentForm
-from wagtail_tag_manager.utils import get_site_for_request
-from wagtail_tag_manager.models import Tag, CookieDeclaration
-from wagtail_tag_manager.settings import TagTypeSettings, CookieBarSettings
+from wagtail_tag_manager.models import CookieDeclaration, Tag
+from wagtail_tag_manager.settings import CookieBarSettings, TagTypeSettings
 from wagtail_tag_manager.strategy import TagStrategy
+from wagtail_tag_manager.utils import get_site_for_request
 
 register = template.Library()
 
