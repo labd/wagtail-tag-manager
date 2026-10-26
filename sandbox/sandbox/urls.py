@@ -1,4 +1,3 @@
-import debug_toolbar
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
@@ -35,6 +34,11 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+    # debug_toolbar is not installed for the Cypress (ENVIRONMENT=test) runs,
+    # and importing its urls without the app installed fails.
+    if "debug_toolbar" in settings.INSTALLED_APPS:
+        import debug_toolbar
+
+        urlpatterns = [
+            path('__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
