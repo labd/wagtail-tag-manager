@@ -97,7 +97,7 @@ jobs:
         with:
           install: false
           start: make run_test_sandbox
-          wait-on: "http://localhost:8000"
+          wait-on: "http://127.0.0.1:8000"
           record: false
           browser: ${{ matrix.browser }}
           spec: ${{ matrix.spec }}
