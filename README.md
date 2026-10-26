@@ -510,6 +510,7 @@ Check out the console in your browser to see them in action.
 make requirements          # install the JS dependencies and sync .venv with uv (uv.lock)
 make test                  # run the test suite in .venv
 make lint                  # ruff format --check, ruff check and mypy
+make e2e                   # run the Playwright end-to-end tests against the sandbox
 make tox                   # run the full Wagtail/Django/Python matrix and lint with tox-uv
 ```
 

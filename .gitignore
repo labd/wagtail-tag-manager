@@ -14,8 +14,8 @@
 .vscode/
 .nova/
 
-cypress/screenshots/*
-cypress/videos/*
+# Playwright traces/screenshots
+test-results/
 
 build
 dist
