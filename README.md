@@ -2,12 +2,12 @@
 
 [![Tests][tests]](https://github.com/labd/wagtail-tag-manager/actions/workflows/tests.yml)
 [![License][license]](https://opensource.org/licenses/BSD-3-Clause)
-[![Black][black]](https://github.com/ambv/black)
+[![Ruff][ruff]](https://github.com/astral-sh/ruff)
 [![Prettier][prettier]](https://github.com/prettier/prettier)
 
 [tests]: https://github.com/labd/wagtail-tag-manager/actions/workflows/tests.yml/badge.svg "Tests"
 [license]: https://img.shields.io/badge/license-BSD-blue.svg "License"
-[black]: https://img.shields.io/badge/code%20style-black-000000.svg "Black"
+[ruff]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json "Ruff"
 [prettier]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg "Prettier"
 
 Wagtail Tag Manager (WTM for short) is a [Wagtail](https://wagtail.org/) addon
@@ -99,7 +99,7 @@ change the text shown in the cookie bar.
 | ------------------ | ------------------------------------------------ |
 | Wagtail            | 7.0 LTS, 7.4 LTS, 8.0                            |
 | Django             | 5.2 LTS, 6.0, 6.1 (as supported by your Wagtail) |
-| Python             | 3.10 – 3.14 (Django 6.x requires 3.12+)          |
+| Python             | 3.11 – 3.14 (Django 6.x requires 3.12+)          |
 | wagtail-modeladmin | 2.3+ (2.5+ for Wagtail 8.0)                      |
 
 ## Instructions
@@ -496,7 +496,7 @@ the conditions that you specified.
 
 To experiment with the package you can use the sandbox provided in this
 repository. To install this you will need [uv](https://docs.astral.sh/uv/),
-Node.js and Yarn; then run `make venv sandbox`. This will start a fresh Wagtail
+Node.js and Yarn; then run `make sandbox`. This will start a fresh Wagtail
 install, with the tag manager module enabled, on http://localhost:8000
 and http://localhost:8000/cms/. The superuser credentials are
 `superuser` with the password `testing`.
@@ -507,8 +507,9 @@ Check out the console in your browser to see them in action.
 ## Development
 
 ```
-make venv requirements     # create .venv with uv and install the package with test extras
+make requirements          # install the JS dependencies and sync .venv with uv (uv.lock)
 make test                  # run the test suite in .venv
+make lint                  # ruff format --check, ruff check and mypy
 make tox                   # run the full Wagtail/Django/Python matrix and lint with tox-uv
 ```
 

@@ -1,7 +1,7 @@
-.PHONY: install clean venv requirements test retest coverage tox lint flake8 isort mypy format black prettier sandbox test_sandbox run_test_sandbox bundle watch build
+.PHONY: install clean requirements test retest coverage tox lint ruff mypy format prettier sandbox test_sandbox run_test_sandbox bundle watch build
 
 # Runs commands in the uv-managed .venv without needing to activate it.
-RUN = uv run --no-project
+RUN = uv run
 
 default: install
 
@@ -12,12 +12,9 @@ clean:
 	find tests -name '*.pyc' -delete
 	find . -name '*.egg-info' |xargs rm -rf
 
-venv:
-	test -d .venv || uv venv
-
-requirements: venv
+requirements:
 	yarn install
-	uv pip install -e ".[test]"
+	uv sync
 
 test:
 	$(RUN) pytest --nomigrations --reuse-db tests/
@@ -31,31 +28,24 @@ coverage:
 tox:
 	uvx --with tox-uv tox
 
-lint: flake8 isort mypy
+lint: ruff mypy
+
+ruff:
+	$(RUN) ruff format --check src tests
+	$(RUN) ruff check src tests
 
 mypy:
-	uv pip install -U mypy
-	$(RUN) mypy src/ tests/
+	$(RUN) --with mypy mypy src/ tests/
 
-flake8:
-	uvx flake8 src/ tests/
-
-isort:
-	uvx isort src tests
-
-format: black prettier
-
-BLACK_EXCLUDE="/(\.git|\.hg|\.mypy_cache|\.tox|\.venv|_build|buck-out|build|dist|migrations)/"
-
-black: isort
-	uvx black --target-version py310 --verbose --exclude $(BLACK_EXCLUDE) ./src
-	uvx black --target-version py310 --verbose --exclude $(BLACK_EXCLUDE) ./tests
+format: prettier
+	$(RUN) ruff check --fix src tests
+	$(RUN) ruff format src tests
 
 prettier:
 	yarn install
 	yarn format
 
-sandbox: bundle
+sandbox: requirements bundle
 	uv pip install -U -r sandbox/requirements.txt
 	rm -rf db.sqlite3
 	$(RUN) sandbox/manage.py migrate
@@ -75,7 +65,7 @@ test_sandbox:
 	ENVIRONMENT=test $(RUN) sandbox/manage.py runserver --verbosity 0
 
 run_test_sandbox:
-	sandbox/manage.py runserver --verbosity 0 > /dev/null 2>&1
+	$(RUN) sandbox/manage.py runserver --verbosity 0 > /dev/null 2>&1
 
 bundle: prettier
 	yarn install --force
